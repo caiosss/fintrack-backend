@@ -29,7 +29,6 @@ model Transaction {
   description String?
   date        DateTime @default(now())
   userId      Int
-  accountId   Int
   categoryId  Int
   createdAt   DateTime @default(now())
   category    Category @relation(fields: [categoryId], references: [id])
