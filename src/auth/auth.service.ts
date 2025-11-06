@@ -11,28 +11,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async register(data: { email: string; password: string; name: string }) {
-    const userExists = await this.prisma.user.findUnique({
-      where: { email: data.email },
-    });
-    if (userExists) throw new BadRequestException('E-mail ou user name já está em uso.');
-
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-
-    const user = await this.prisma.user.create({
-      data: {
-        email: data.email,
-        password: hashedPassword,
-        name: data.name,
-      },
-    });
-
-    return { message: 'Usuário criado com sucesso', user: { id: user.id, email: user.email } };
-  }
-
   async login(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
-    if (!user) throw new UnauthorizedException('Credenciais inválidas.');
+    if (!user) throw new UnauthorizedException('Email inválido.');
 
     const passwordValid = await bcrypt.compare(password, user.password);
     if (!passwordValid) throw new UnauthorizedException('Credenciais inválidas.');
