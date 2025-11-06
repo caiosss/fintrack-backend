@@ -17,7 +17,7 @@ model User {
   id        Int       @id @default(autoincrement())
   email     String    @unique
   password  String
-  name      String?
+  name      String    @unique
   createdAt DateTime  @default(now())
   transactions Transaction[]
 }
@@ -42,7 +42,7 @@ model Transaction {
   date       DateTime  @default(now())
   userId     Int
   accountId  Int
-  categoryId Int?
+  categoryId Int
   user       User      @relation(fields: [userId], references: [id])
   category   Category @relation(fields: [categoryId], references: [id])
   createdAt  DateTime  @default(now())
