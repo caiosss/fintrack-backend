@@ -10,7 +10,7 @@ export class TransactionService {
         return this.prisma.transaction.create({
             data: {
                 amount: data.amount,
-                date: data.date,
+                date: new Date(data.date),
                 description: data.description,
                 userId: userId,
                 categoryId: categoryId,

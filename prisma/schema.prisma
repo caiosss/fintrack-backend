@@ -14,13 +14,16 @@ model User {
   name         String        @unique
   createdAt    DateTime      @default(now())
   transactions Transaction[]
+  categories   Category[]
 }
 
 model Category {
   id           Int           @id @default(autoincrement())
   name         String
   type         CategoryType
+  userId      Int
   transactions Transaction[]
+  user        User          @relation(fields: [userId], references: [id])
 }
 
 model Transaction {
