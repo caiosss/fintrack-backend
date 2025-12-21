@@ -25,4 +25,14 @@ export class CategoryController {
     async updateCategory(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateCategoryDto) {
         return this.categoryService.updateCategory(id, data);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('filter/:userId/:month/:year')
+    async getCategoriesByType(
+        @Param('userId', ParseIntPipe) userId: number,
+        @Param('month', ParseIntPipe) month: number,
+        @Param('year', ParseIntPipe) year: number
+    ) {
+        return this.categoryService.getCategoryTransactionsByMonthAndYear(userId, month, year);
+    }
 }
