@@ -16,9 +16,9 @@ const parseJwtExpiresInToMs = (value?: string) => {
   const unit = match[2].toLowerCase();
   const unitMs =
     unit === 's' ? 1000 :
-    unit === 'm' ? 60_000 :
-    unit === 'h' ? 3_600_000 :
-    86_400_000;
+      unit === 'm' ? 60_000 :
+        unit === 'h' ? 3_600_000 :
+          86_400_000;
   return amount * unitMs;
 };
 
@@ -46,7 +46,7 @@ const getCookieBaseOptions = () => ({
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('login')
   async login(
@@ -73,7 +73,10 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   logout(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('access_token', getCookieBaseOptions());
+    response.clearCookie('access_token', {
+      ...getCookieBaseOptions(),
+      maxAge: 0,
+    });
     return { message: 'Logout realizado com sucesso.' };
   }
 }
