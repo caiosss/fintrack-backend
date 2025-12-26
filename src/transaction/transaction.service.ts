@@ -17,4 +17,10 @@ export class TransactionService {
             },
         });
     }
+
+    async deleteTransaction(transactionId: number) {
+        return this.prisma.transaction.delete({
+            where: { id: transactionId },
+        });
+    }
 }

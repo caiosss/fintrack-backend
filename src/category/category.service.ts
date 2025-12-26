@@ -111,4 +111,16 @@ export class CategoryService {
             expenseComparison,
         }));
     }
+
+    async deleteCategory(categoryId: number) {
+        return this.prisma.$transaction(async (tx) => {
+            await tx.transaction.deleteMany({
+                where: { categoryId: categoryId },
+            });
+
+            return tx.category.delete({
+                where: { id: categoryId },
+            });
+        });
+    }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, UseGuards } from "@nestjs/common";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
@@ -34,5 +34,11 @@ export class CategoryController {
         @Param('year', ParseIntPipe) year: number
     ) {
         return this.categoryService.getCategoryTransactionsByMonthAndYear(userId, month, year);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    async deleteCategory(@Param('id', ParseIntPipe) id: number) {
+        return this.categoryService.deleteCategory(id);
     }
 }

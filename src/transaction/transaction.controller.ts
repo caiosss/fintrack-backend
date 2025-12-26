@@ -1,4 +1,4 @@
-import { Body, Controller, Param, ParseIntPipe, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Param, ParseIntPipe, Post, UseGuards } from "@nestjs/common";
 import { TransactionService } from "./transaction.service";
 import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
 import { CreateTransactionDto } from "./dto/create-transaction.dto";
@@ -11,5 +11,11 @@ export class TransactionController {
     @Post(':userId/:categoryId')
     create (@Param('userId', ParseIntPipe) userId: number, @Param('categoryId', ParseIntPipe) categoryId: number, @Body() data: CreateTransactionDto) {
         return this.transactionService.createTransaction(data, userId, categoryId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    delete (@Param('id', ParseIntPipe) id: number) {
+        return this.transactionService.deleteTransaction(id);
     }
 }
